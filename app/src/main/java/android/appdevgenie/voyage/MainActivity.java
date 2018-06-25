@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
@@ -23,18 +25,30 @@ public class MainActivity extends AppCompatActivity {
     private String username;
     private Context context;
 
+    private FloatingActionButton fabNewEntry;
+
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_entry);
+        setContentView(R.layout.activity_main);
 
         context = getApplicationContext();
 
         firebaseAuth = FirebaseAuth.getInstance();
         initAuthStateListener();
+
+        fabNewEntry = findViewById(R.id.fabAddEntry);
+        fabNewEntry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MainActivity.this, NewEntryActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initAuthStateListener() {
