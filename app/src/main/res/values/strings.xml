@@ -3,4 +3,5 @@
     <string name="signed_in">Signed in</string>
     <string name="sign_in_cancelled">Sign in cancelled</string>
     <string name="sign_out">Sign out</string>
+    <string name="add_thoughts">Add thoughts &#8230;</string>
 </resources>
