@@ -1,11 +1,14 @@
 package android.appdevgenie.voyage;
 
+import android.appdevgenie.voyage.adapter.VoyageAdapter;
+import android.appdevgenie.voyage.database.AppDatabase;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,7 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements VoyageAdapter.ItemClickListener {
 
     private static final int SIGN_IN = 1;
 
@@ -29,8 +32,12 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fabNewEntry;
     private RecyclerView recyclerView;
 
+    private VoyageAdapter voyageAdapter;
+
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
+
+    private AppDatabase appDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
         initAuthStateListener();
 
         recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+        voyageAdapter = new VoyageAdapter(context, this);
+        recyclerView.setAdapter(voyageAdapter);
 
         fabNewEntry = findViewById(R.id.fabAddEntry);
         fabNewEntry.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        appDatabase = AppDatabase.getInstance(context);
     }
 
     private void initAuthStateListener() {
@@ -138,6 +151,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         firebaseAuth.addAuthStateListener(authStateListener);
+
+        voyageAdapter.setEntries(appDatabase.entryDao().loadAllEntries());
     }
 
     @Override
@@ -147,5 +162,10 @@ public class MainActivity extends AppCompatActivity {
         if (authStateListener != null) {
             firebaseAuth.removeAuthStateListener(authStateListener);
         }
+    }
+
+    @Override
+    public void onItemClickListener(int itemId) {
+
     }
 }

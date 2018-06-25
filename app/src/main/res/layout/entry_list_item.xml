@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="wrap_content"
     android:layout_margin="10dp"
     card_view:cardCornerRadius="4dp"
+    card_view:cardBackgroundColor="#F0F0F0"
     card_view:cardElevation="6dp">
 
     <LinearLayout
@@ -20,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|top"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:typeface="serif"
             tools:text="25 June, 2018" />
 
@@ -33,7 +34,7 @@
             android:layout_marginRight="5dp"
             android:layout_marginEnd="5dp"
             android:textColor="@color/colorPrimary"
-            android:textSize="20sp"
+            android:textSize="18sp"
             tools:text="12:00 AM" />
 
         <View
@@ -49,7 +50,7 @@
             android:layout_marginTop="8dp"
             android:padding="5dp"
             android:textColor="@color/textBlack"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:typeface="serif"
             tools:text="information..." />
 

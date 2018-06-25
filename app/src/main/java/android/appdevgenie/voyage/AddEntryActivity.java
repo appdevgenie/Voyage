@@ -1,6 +1,7 @@
 package android.appdevgenie.voyage;
 
 import android.appdevgenie.voyage.database.AppDatabase;
+import android.appdevgenie.voyage.database.NewEntry;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class AddEntryActivity extends AppCompatActivity {
@@ -64,6 +66,11 @@ public class AddEntryActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 String entryInfo = etEntry.getText().toString();
+                Date date = new Date();
+
+                NewEntry newEntry = new NewEntry(entryInfo, timeString, dateString, date);
+                appDatabase.entryDao().insertEntry(newEntry);
+                finish();
             }
         });
     }

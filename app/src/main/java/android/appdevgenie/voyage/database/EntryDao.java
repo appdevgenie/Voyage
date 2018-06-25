@@ -24,6 +24,6 @@ public interface EntryDao {
     @Query("SELECT * FROM voyage WHERE id = :id")
     List<NewEntry> loadEntryById(int id);
 
-    @Query("SELECT * FROM voyage ORDER By updated_on")
+    @Query("SELECT * FROM voyage ORDER By updated_on DESC")
     List<NewEntry> loadAllEntries();
 }
