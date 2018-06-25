@@ -2,30 +2,35 @@ package android.appdevgenie.voyage.database;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.util.Date;
 
-@Entity(tableName = "new_entry")
+@Entity(tableName = "voyage")
 public class NewEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String thoughts;
-    private int priority;
+    private String entryTime;
+    private String entryDate;
     @ColumnInfo(name = "updated_on")
     private Date updatedOn;
 
-    public NewEntry(String thoughts, int priority, Date updatedOn) {
+    @Ignore
+    public NewEntry(String thoughts, String entryTime, String entryDate, Date updatedOn) {
         this.thoughts = thoughts;
-        this.priority = priority;
+        this.entryTime = entryTime;
+        this.entryDate = entryDate;
         this.updatedOn = updatedOn;
     }
 
-    public NewEntry(int id, String thoughts, int priority, Date updatedOn) {
+    public NewEntry(int id, String thoughts, String entryTime, String entryDate, Date updatedOn) {
         this.id = id;
         this.thoughts = thoughts;
-        this.priority = priority;
+        this.entryTime = entryTime;
+        this.entryDate = entryDate;
         this.updatedOn = updatedOn;
     }
 
@@ -45,12 +50,20 @@ public class NewEntry {
         this.thoughts = thoughts;
     }
 
-    public int getPriority() {
-        return priority;
+    public String getEntryTime() {
+        return entryTime;
     }
 
-    public void setPriority(int priority) {
-        this.priority = priority;
+    public void setEntryTime(String entryTime) {
+        this.entryTime = entryTime;
+    }
+
+    public String getEntryDate() {
+        return entryDate;
+    }
+
+    public void setEntryDate(String entryDate) {
+        this.entryDate = entryDate;
     }
 
     public Date getUpdatedOn() {

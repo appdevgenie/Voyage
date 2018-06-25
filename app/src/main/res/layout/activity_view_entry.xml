@@ -1,63 +1,84 @@
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="10dp"
-    card_view:cardCornerRadius="4dp"
-    card_view:cardElevation="6dp">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="3dp">
+        android:layout_margin="10dp"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="6dp">
 
-        <TextView
-            android:id="@+id/tvItemDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|top"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="24sp"
-            android:typeface="serif"
-            tools:text="25 June, 2018" />
-
-        <TextView
-            android:id="@+id/tvItemTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp"
-            tools:text="12:00 AM" />
-
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorPrimary" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="3dp">
 
             <TextView
-                android:id="@+id/tvItemInfo"
-                android:layout_width="match_parent"
+                android:id="@+id/tvItemDate"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|top"
-                android:layout_marginTop="8dp"
-                android:padding="5dp"
-                android:textColor="@color/textBlack"
-                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="24sp"
                 android:typeface="serif"
-                tools:text="information"/>
+                tools:text="25 June, 2018" />
 
-        </ScrollView>
+            <TextView
+                android:id="@+id/tvItemTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                tools:text="12:00 AM" />
 
-    </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary" />
+
+            <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvItemInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|top"
+                    android:layout_marginTop="8dp"
+                    android:padding="5dp"
+                    android:textColor="@color/textBlack"
+                    android:textSize="18sp"
+                    android:typeface="serif"
+                    tools:text="information" />
+
+            </ScrollView>
+
+        </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabUpdateEntry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/ic_action_add"
+            app:layout_constraintBottom_toBottomOf="@+id/scrollView"
+            app:layout_constraintEnd_toEndOf="@+id/scrollView" />
 
 
-</android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
+</android.support.constraint.ConstraintLayout>

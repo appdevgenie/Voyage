@@ -28,8 +28,10 @@
             android:id="@+id/tvItemTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
+            android:layout_gravity="end"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
             android:textColor="@color/colorPrimary"
             android:textSize="20sp"
             tools:text="12:00 AM" />

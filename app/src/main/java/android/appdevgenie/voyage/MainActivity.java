@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private Context context;
 
     private FloatingActionButton fabNewEntry;
+    private RecyclerView recyclerView;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -40,12 +42,14 @@ public class MainActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         initAuthStateListener();
 
+        recyclerView = findViewById(R.id.recyclerView);
+
         fabNewEntry = findViewById(R.id.fabAddEntry);
         fabNewEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(MainActivity.this, NewEntryActivity.class);
+                Intent intent = new Intent(MainActivity.this, AddEntryActivity.class);
                 startActivity(intent);
             }
         });

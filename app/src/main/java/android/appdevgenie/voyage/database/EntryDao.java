@@ -7,6 +7,8 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
+import java.util.List;
+
 @Dao
 public interface EntryDao {
 
@@ -19,9 +21,9 @@ public interface EntryDao {
     @Delete
     void deleteEntry(NewEntry newEntry);
 
-    @Query("SELECT * FROM new_entry WHERE id = :id")
-    NewEntry loadEntryById(int id);
+    @Query("SELECT * FROM voyage WHERE id = :id")
+    List<NewEntry> loadEntryById(int id);
 
-    @Query("SELECT * FROM new_entry ORDER By priority")
-    NewEntry loadAllEntries();
+    @Query("SELECT * FROM voyage ORDER By updated_on")
+    List<NewEntry> loadAllEntries();
 }
