@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
 
     private FloatingActionButton fabNewEntry;
     private RecyclerView recyclerView;
+    private Toolbar toolbar;
 
     private VoyageAdapter voyageAdapter;
 
@@ -45,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
         setContentView(R.layout.activity_main);
 
         context = getApplicationContext();
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         firebaseAuth = FirebaseAuth.getInstance();
         initAuthStateListener();
@@ -61,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
             public void onClick(View view) {
 
                 Intent intent = new Intent(MainActivity.this, AddEntryActivity.class);
+                //intent.putExtra("username", username);
                 startActivity(intent);
             }
         });
@@ -78,7 +84,11 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
 
                 if (firebaseUser != null) {
 
-                    onSignedInInitialized(firebaseUser.getDisplayName());
+                    String signedIn = firebaseUser.getDisplayName();
+
+                    onSignedInInitialized(signedIn);
+
+                    toolbar.setSubtitle(signedIn);
 
                 } else {
 

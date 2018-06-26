@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    card_view:cardCornerRadius="4dp"
     card_view:cardBackgroundColor="#F0F0F0"
+    card_view:cardCornerRadius="4dp"
     card_view:cardElevation="6dp">
 
     <LinearLayout
@@ -19,9 +19,12 @@
             android:id="@+id/tvItemDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|top"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="20sp"
+            android:layout_gravity="end|top"
+            android:layout_marginBottom="3dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
             android:typeface="serif"
             tools:text="25 June, 2018" />
 
@@ -31,16 +34,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginBottom="3dp"
-            android:layout_marginRight="5dp"
             android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
             android:textColor="@color/colorPrimary"
-            android:textSize="18sp"
+            android:textSize="16sp"
             tools:text="12:00 AM" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/colorPrimary" />
+            android:background="@color/colorPrimaryDark" />
 
         <TextView
             android:id="@+id/tvItemInfo"

@@ -29,6 +29,7 @@ public class AddEntryActivity extends AppCompatActivity {
     private SimpleDateFormat timeFormat;
     private String dateString;
     private String timeString;
+    private String username;
 
     private AppDatabase appDatabase;
 
@@ -37,6 +38,11 @@ public class AddEntryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_new_entry);
+
+        /*Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            username = bundle.getString("username");
+        }*/
 
         setupVariables();
     }
@@ -52,7 +58,7 @@ public class AddEntryActivity extends AppCompatActivity {
         etEntry = findViewById(R.id.etEntryInfo);
 
         calendar = Calendar.getInstance();
-        dateFormat = new SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault());
+        dateFormat = new SimpleDateFormat("cccc, dd MMMM, yyyy", Locale.getDefault());
         timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
         dateString = dateFormat.format(calendar.getTime());
@@ -68,9 +74,11 @@ public class AddEntryActivity extends AppCompatActivity {
                 String entryInfo = etEntry.getText().toString();
                 Date date = new Date();
 
-                NewEntry newEntry = new NewEntry(entryInfo, timeString, dateString, date);
-                appDatabase.entryDao().insertEntry(newEntry);
-                finish();
+                if(!entryInfo.equals("")) {
+                    NewEntry newEntry = new NewEntry(entryInfo, timeString, dateString, date);
+                    appDatabase.entryDao().insertEntry(newEntry);
+                    finish();
+                }
             }
         });
     }
