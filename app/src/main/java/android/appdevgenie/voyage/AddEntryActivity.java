@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -39,10 +40,10 @@ public class AddEntryActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_new_entry);
 
-        /*Bundle bundle = getIntent().getExtras();
+        Bundle bundle = getIntent().getExtras();
         if(bundle != null){
             username = bundle.getString("username");
-        }*/
+        }
 
         setupVariables();
     }
@@ -52,6 +53,8 @@ public class AddEntryActivity extends AppCompatActivity {
         context = getApplicationContext();
 
         appDatabase = AppDatabase.getInstance(context);
+
+        Toast.makeText(context, username, Toast.LENGTH_SHORT).show();
 
         tvDate = findViewById(R.id.tvEntryDate);
         tvTime = findViewById(R.id.tvEntryTime);
@@ -75,7 +78,7 @@ public class AddEntryActivity extends AppCompatActivity {
                 Date date = new Date();
 
                 if(!entryInfo.equals("")) {
-                    NewEntry newEntry = new NewEntry(entryInfo, timeString, dateString, date);
+                    NewEntry newEntry = new NewEntry(username, entryInfo, timeString, dateString, date);
                     appDatabase.entryDao().insertEntry(newEntry);
                     finish();
                 }

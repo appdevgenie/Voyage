@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
             public void onClick(View view) {
 
                 Intent intent = new Intent(MainActivity.this, AddEntryActivity.class);
-                //intent.putExtra("username", username);
+                intent.putExtra("username", username);
                 startActivity(intent);
             }
         });
@@ -111,6 +111,8 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
     private void onSignedInInitialized(String displayName) {
 
         username = displayName;
+
+        voyageAdapter.setEntries(appDatabase.entryDao().loadAllEntriesByUsername(username));
     }
 
     @Override
@@ -162,7 +164,8 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
 
         firebaseAuth.addAuthStateListener(authStateListener);
 
-        voyageAdapter.setEntries(appDatabase.entryDao().loadAllEntries());
+        //voyageAdapter.setEntries(appDatabase.entryDao().loadAllEntries());
+        voyageAdapter.setEntries(appDatabase.entryDao().loadAllEntriesByUsername(username));
     }
 
     @Override

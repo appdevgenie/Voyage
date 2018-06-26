@@ -12,7 +12,7 @@ public class NewEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
-   // private String username;
+    private String username;
     private String thoughts;
     private String entryTime;
     private String entryDate;
@@ -20,30 +20,30 @@ public class NewEntry {
     private Date updatedOn;
 
     @Ignore
-    public NewEntry(String thoughts, String entryTime, String entryDate, Date updatedOn) {
-       // this.username = username;
+    public NewEntry(String username, String thoughts, String entryTime, String entryDate, Date updatedOn) {
+        this.username = username;
         this.thoughts = thoughts;
         this.entryTime = entryTime;
         this.entryDate = entryDate;
         this.updatedOn = updatedOn;
     }
 
-    public NewEntry(int id, String thoughts, String entryTime, String entryDate, Date updatedOn) {
+    public NewEntry(int id, String username, String thoughts, String entryTime, String entryDate, Date updatedOn) {
         this.id = id;
-       // this.username = username;
+        this.username = username;
         this.thoughts = thoughts;
         this.entryTime = entryTime;
         this.entryDate = entryDate;
         this.updatedOn = updatedOn;
     }
 
-   /* public String getUsername() {
+    public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
-    }*/
+    }
 
     public int getId() {
         return id;
