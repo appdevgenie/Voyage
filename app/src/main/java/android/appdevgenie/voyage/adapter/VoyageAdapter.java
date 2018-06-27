@@ -80,6 +80,11 @@ public class VoyageAdapter extends RecyclerView.Adapter<VoyageAdapter.EntryViewH
         notifyDataSetChanged();
     }
 
+    public List<NewEntry> getEntries(){
+
+        return newEntries;
+    }
+
     public interface ItemClickListener {
         void onItemClickListener(int itemId);
     }

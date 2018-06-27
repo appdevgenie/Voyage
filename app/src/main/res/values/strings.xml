@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">Voyage</string>
+    <string name="app_name">My Diary</string>
     <string name="signed_in">Signed in</string>
     <string name="sign_in_cancelled">Sign in cancelled</string>
     <string name="sign_out">Sign out</string>
     <string name="add_thoughts">Add thoughts &#8230;</string>
+    <string name="title_activity_test">TestActivity</string>
 </resources>
