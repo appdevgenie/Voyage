@@ -15,6 +15,8 @@ import java.util.List;
 
 public class VoyageAdapter extends RecyclerView.Adapter<VoyageAdapter.EntryViewHolder> {
 
+    private static final int MAX_INPUT_LENGTH = 50;
+
     private Context context;
     private ItemClickListener itemClickListener;
     private List<NewEntry> newEntries;
@@ -40,6 +42,9 @@ public class VoyageAdapter extends RecyclerView.Adapter<VoyageAdapter.EntryViewH
         String date = newEntry.getEntryDate();
         String time = newEntry.getEntryTime();
         String info = newEntry.getThoughts();
+        if(info.length() > MAX_INPUT_LENGTH){
+            info = info.substring(0, MAX_INPUT_LENGTH).concat("...");
+        }
 
         holder.tvDate.setText(date);
         holder.tvTime.setText(time);

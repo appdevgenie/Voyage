@@ -2,6 +2,7 @@ package android.appdevgenie.voyage;
 
 import android.appdevgenie.voyage.adapter.VoyageAdapter;
 import android.appdevgenie.voyage.database.AppDatabase;
+import android.appdevgenie.voyage.database.NewEntry;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements VoyageAdapter.ItemClickListener {
 
@@ -112,7 +114,24 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
 
         username = displayName;
 
-        voyageAdapter.setEntries(appDatabase.entryDao().loadAllEntriesByUsername(username));
+        populateList();
+
+    }
+
+    private void populateList() {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                final List<NewEntry> entries = appDatabase.entryDao().loadAllEntriesByUsername(username);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        voyageAdapter.setEntries(entries);
+                    }
+                });
+            }
+        });
+
     }
 
     @Override
@@ -164,8 +183,7 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
 
         firebaseAuth.addAuthStateListener(authStateListener);
 
-        //voyageAdapter.setEntries(appDatabase.entryDao().loadAllEntries());
-        voyageAdapter.setEntries(appDatabase.entryDao().loadAllEntriesByUsername(username));
+        populateList();
     }
 
     @Override

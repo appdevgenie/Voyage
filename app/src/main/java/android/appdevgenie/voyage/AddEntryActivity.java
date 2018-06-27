@@ -54,8 +54,6 @@ public class AddEntryActivity extends AppCompatActivity {
 
         appDatabase = AppDatabase.getInstance(context);
 
-        Toast.makeText(context, username, Toast.LENGTH_SHORT).show();
-
         tvDate = findViewById(R.id.tvEntryDate);
         tvTime = findViewById(R.id.tvEntryTime);
         etEntry = findViewById(R.id.etEntryInfo);
@@ -78,9 +76,15 @@ public class AddEntryActivity extends AppCompatActivity {
                 Date date = new Date();
 
                 if(!entryInfo.equals("")) {
-                    NewEntry newEntry = new NewEntry(username, entryInfo, timeString, dateString, date);
-                    appDatabase.entryDao().insertEntry(newEntry);
-                    finish();
+                    final NewEntry newEntry = new NewEntry(username, entryInfo, timeString, dateString, date);
+                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            appDatabase.entryDao().insertEntry(newEntry);
+                            finish();
+                        }
+                    });
+
                 }
             }
         });
