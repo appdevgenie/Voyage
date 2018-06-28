@@ -1,6 +1,6 @@
-package android.appdevgenie.voyage.adapter;
+package android.appdevgenie.voyage;
 
-import android.appdevgenie.voyage.R;
+
 import android.appdevgenie.voyage.database.NewEntry;
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class VoyageAdapter extends RecyclerView.Adapter<VoyageAdapter.EntryViewHolder> {
@@ -18,12 +17,12 @@ public class VoyageAdapter extends RecyclerView.Adapter<VoyageAdapter.EntryViewH
     private static final int MAX_INPUT_LENGTH = 50;
 
     private Context context;
-    private ItemClickListener itemClickListener;
+    final private ItemClickListener itemClickListener;
     private List<NewEntry> newEntries;
 
-    public VoyageAdapter(Context context, ItemClickListener itemClickListener) {
+    public VoyageAdapter(Context context, ItemClickListener listener) {
         this.context = context;
-        this.itemClickListener = itemClickListener;
+        this.itemClickListener = listener;
     }
 
     @NonNull
@@ -60,7 +59,7 @@ public class VoyageAdapter extends RecyclerView.Adapter<VoyageAdapter.EntryViewH
         return newEntries.size();
     }
 
-    class EntryViewHolder extends RecyclerView.ViewHolder{
+    class EntryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView tvDate;
         private TextView tvTime;
@@ -73,6 +72,12 @@ public class VoyageAdapter extends RecyclerView.Adapter<VoyageAdapter.EntryViewH
             tvTime = itemView.findViewById(R.id.tvItemTime);
             tvThoughts = itemView.findViewById(R.id.tvItemInfo);
         }
+
+        @Override
+        public void onClick(View view) {
+            int elementId = newEntries.get(getAdapterPosition()).getId();
+            itemClickListener.onItemClickListener(elementId);
+        }
     }
 
     public void setEntries(List<NewEntry> newEntriesList){
@@ -81,7 +86,6 @@ public class VoyageAdapter extends RecyclerView.Adapter<VoyageAdapter.EntryViewH
     }
 
     public List<NewEntry> getEntries(){
-
         return newEntries;
     }
 

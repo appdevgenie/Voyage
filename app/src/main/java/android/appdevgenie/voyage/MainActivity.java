@@ -1,6 +1,5 @@
 package android.appdevgenie.voyage;
 
-import android.appdevgenie.voyage.adapter.VoyageAdapter;
 import android.appdevgenie.voyage.database.AppDatabase;
 import android.appdevgenie.voyage.database.NewEntry;
 import android.content.Context;
@@ -59,8 +58,7 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
-        voyageAdapter = new VoyageAdapter(context, this);
+        voyageAdapter = new VoyageAdapter(this, this);
         recyclerView.setAdapter(voyageAdapter);
 
         //used to delete entry on swipe
@@ -223,6 +221,10 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
 
     @Override
     public void onItemClickListener(int itemId) {
+
+        Intent intent = new Intent(MainActivity.this, UpdateEntryActivity.class);
+        intent.putExtra("idPosition", itemId);
+        startActivity(intent);
 
     }
 }
