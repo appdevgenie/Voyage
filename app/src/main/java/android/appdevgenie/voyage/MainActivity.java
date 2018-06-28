@@ -223,7 +223,8 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
     public void onItemClickListener(int itemId) {
 
         Intent intent = new Intent(MainActivity.this, UpdateEntryActivity.class);
-        intent.putExtra("idPosition", itemId);
+        intent.putExtra("itemId", itemId);
+        intent.putExtra("username", username);
         startActivity(intent);
 
     }

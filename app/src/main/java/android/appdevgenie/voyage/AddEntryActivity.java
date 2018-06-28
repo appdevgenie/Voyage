@@ -85,6 +85,9 @@ public class AddEntryActivity extends AppCompatActivity {
                         }
                     });
 
+                } else {
+
+                    Toast.makeText(context, context.getString(R.string.add_thoughts), Toast.LENGTH_SHORT).show();
                 }
             }
         });

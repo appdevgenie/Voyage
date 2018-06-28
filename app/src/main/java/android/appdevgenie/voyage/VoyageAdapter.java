@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -20,8 +21,8 @@ public class VoyageAdapter extends RecyclerView.Adapter<VoyageAdapter.EntryViewH
     final private ItemClickListener itemClickListener;
     private List<NewEntry> newEntries;
 
-    public VoyageAdapter(Context context, ItemClickListener listener) {
-        this.context = context;
+    public VoyageAdapter(Context ctx, ItemClickListener listener) {
+        this.context = ctx;
         this.itemClickListener = listener;
     }
 
@@ -71,6 +72,7 @@ public class VoyageAdapter extends RecyclerView.Adapter<VoyageAdapter.EntryViewH
             tvDate = itemView.findViewById(R.id.tvItemDate);
             tvTime = itemView.findViewById(R.id.tvItemTime);
             tvThoughts = itemView.findViewById(R.id.tvItemInfo);
+            itemView.setOnClickListener(this);
         }
 
         @Override
