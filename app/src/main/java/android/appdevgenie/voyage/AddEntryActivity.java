@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ public class AddEntryActivity extends AppCompatActivity {
     private TextView tvTime;
     private EditText etEntry;
     private FloatingActionButton fabAdd;
+    private Toolbar toolbar;
 
     private Context context;
     private Calendar calendar;
@@ -51,6 +53,9 @@ public class AddEntryActivity extends AppCompatActivity {
     private void setupVariables() {
 
         context = getApplicationContext();
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         appDatabase = AppDatabase.getInstance(context);
 
