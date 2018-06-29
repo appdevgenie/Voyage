@@ -2,7 +2,6 @@ package android.appdevgenie.voyage;
 
 import android.appdevgenie.voyage.database.AppDatabase;
 import android.appdevgenie.voyage.database.NewEntry;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -192,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
             case R.id.menu_sign_out:
 
                 AuthUI.getInstance().signOut(this);
+                finish();
 
                 return true;
 
