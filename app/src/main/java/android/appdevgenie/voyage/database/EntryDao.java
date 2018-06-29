@@ -23,7 +23,7 @@ public interface EntryDao {
     void deleteEntry(NewEntry newEntry);
 
     @Query("SELECT * FROM voyage WHERE id = :id")
-    NewEntry loadEntryById(int id);
+    LiveData<NewEntry> loadEntryById(int id);
 
     /*@Query("SELECT * FROM voyage ORDER By updated_on DESC")
     List<NewEntry> loadAllEntries();*/

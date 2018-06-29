@@ -4,6 +4,7 @@ import android.appdevgenie.voyage.database.AppDatabase;
 import android.appdevgenie.voyage.database.NewEntry;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
 
         appDatabase = AppDatabase.getInstance(context);
 
-        populateList();
+        //populateList();
     }
 
     private void initAuthStateListener() {
@@ -127,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
                             AuthUI.getInstance()
                                     .createSignInIntentBuilder()
                                     .setIsSmartLockEnabled(false)
+                                    .setLogo(R.drawable.login_logo)
                                     .setAvailableProviders(Arrays.asList(
                                             new AuthUI.IdpConfig.EmailBuilder().build(),
                                             new AuthUI.IdpConfig.GoogleBuilder().build()))
@@ -146,8 +148,9 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
     }
 
     private void populateList() {
-        final LiveData<List<NewEntry>> entries = appDatabase.entryDao().loadAllEntriesByUsername(username);
-        entries.observe(this, new Observer<List<NewEntry>>() {
+        //final LiveData<List<NewEntry>> entries = appDatabase.entryDao().loadAllEntriesByUsername(username);
+        MainViewModel mainViewModel = ViewModelProviders.of(this, new MainViewModelFactory(this.getApplication(), username)).get(MainViewModel.class);
+        mainViewModel.getNewEntries().observe(this, new Observer<List<NewEntry>>() {
             @Override
             public void onChanged(@Nullable List<NewEntry> newEntries) {
                 Log.d(TAG, "onChanged: update from LiveData");
@@ -221,6 +224,7 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
 
         Intent intent = new Intent(MainActivity.this, UpdateEntryActivity.class);
         intent.putExtra(UpdateEntryActivity.EXTRA_ITEM_ID, itemId);
+        intent.putExtra(UpdateEntryActivity.EXTRA_USERNAME, username);
         startActivity(intent);
 
     }

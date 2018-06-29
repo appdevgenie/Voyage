@@ -2,9 +2,12 @@ package android.appdevgenie.voyage;
 
 import android.appdevgenie.voyage.database.AppDatabase;
 import android.appdevgenie.voyage.database.NewEntry;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,11 +16,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Date;
+
 public class UpdateEntryActivity extends AppCompatActivity {
 
     public static final String INSTANCE_ID = "instanceID";
     private static final int DEFAULT_ID = -1;
     public static final String EXTRA_ITEM_ID = "extraItemId";
+    public static final String EXTRA_USERNAME = "username";
     private static final String DATE_STRING = "dateString";
     private static final String TIME_STRING = "timeString";
 
@@ -26,10 +32,11 @@ public class UpdateEntryActivity extends AppCompatActivity {
     private EditText etEntryInfo;
 
     private int itemId = DEFAULT_ID;
+    private String username;
+    private Date date;
 
     private AppDatabase appDatabase;
     private Context context;
-    private NewEntry newEntry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +44,9 @@ public class UpdateEntryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_update_entry);
 
         /*Bundle bundle = getIntent().getExtras();
-        if (bundle != null && bundle.containsKey("itemId")) {
+        if (bundle != null && bundle.containsKey("username")) {
             if (itemId == DEFAULT_ID) {
-                itemId = bundle.getInt("itemId");
+                username = bundle.getString("username");
             }
         }*/
 
@@ -61,22 +68,28 @@ public class UpdateEntryActivity extends AppCompatActivity {
         }
 
         Intent intent = getIntent();
-        if (intent != null && intent.hasExtra(EXTRA_ITEM_ID)) {
-            if (itemId == DEFAULT_ID) {
-                itemId = intent.getIntExtra(EXTRA_ITEM_ID, DEFAULT_ID);
+        if (intent != null) {
+            if (intent.hasExtra(EXTRA_ITEM_ID)) {
+                if (itemId == DEFAULT_ID) {
+                    itemId = intent.getIntExtra(EXTRA_ITEM_ID, DEFAULT_ID);
 
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        newEntry = appDatabase.entryDao().loadEntryById(itemId);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                populateSheet(newEntry);
+                    final LiveData<NewEntry> newEntry = appDatabase.entryDao().loadEntryById(itemId);
+                    newEntry.observe(this, new Observer<NewEntry>() {
+                        @Override
+                        public void onChanged(@Nullable NewEntry newEntries) {
+                            newEntry.removeObserver(this);
+
+                            if (newEntries != null) {
+                                date = newEntries.getUpdatedOn();
                             }
-                        });
-                    }
-                });
+                            populateSheet(newEntries);
+                        }
+                    });
+
+                }
+            }
+            if (intent.hasExtra(EXTRA_USERNAME)) {
+                username = intent.getStringExtra("username");
             }
         }
 
@@ -85,16 +98,17 @@ public class UpdateEntryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                final String entryInfo = etEntryInfo.getText().toString();
+                String dateString = tvEntryDate.getText().toString();
+                String timeSting = tvEntryTime.getText().toString();
+                String entryInfo = etEntryInfo.getText().toString();
 
                 if (!entryInfo.equals("")) {
-
+                    final NewEntry newEntry = new NewEntry(username, entryInfo, timeSting, dateString, date);
                     AppExecutors.getInstance().diskIO().execute(new Runnable() {
                         @Override
                         public void run() {
-                            newEntry = appDatabase.entryDao().loadEntryById(itemId);
+
                             newEntry.setId(itemId);
-                            newEntry.setThoughts(entryInfo);
                             appDatabase.entryDao().updateEntry(newEntry);
                             finish();
                         }
