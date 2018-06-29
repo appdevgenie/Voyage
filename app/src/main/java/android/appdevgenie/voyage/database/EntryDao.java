@@ -1,5 +1,6 @@
 package android.appdevgenie.voyage.database;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -24,9 +25,9 @@ public interface EntryDao {
     @Query("SELECT * FROM voyage WHERE id = :id")
     NewEntry loadEntryById(int id);
 
-    @Query("SELECT * FROM voyage ORDER By updated_on DESC")
-    List<NewEntry> loadAllEntries();
+    /*@Query("SELECT * FROM voyage ORDER By updated_on DESC")
+    List<NewEntry> loadAllEntries();*/
 
     @Query("SELECT * FROM voyage WHERE username = :username ORDER By updated_on DESC")
-    List<NewEntry> loadAllEntriesByUsername(String username);
+    LiveData<List<NewEntry>> loadAllEntriesByUsername(String username);
 }

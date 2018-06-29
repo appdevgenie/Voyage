@@ -6,17 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.Date;
-import java.util.List;
 
 public class UpdateEntryActivity extends AppCompatActivity {
 
@@ -25,10 +20,7 @@ public class UpdateEntryActivity extends AppCompatActivity {
     public static final String EXTRA_ITEM_ID = "extraItemId";
     private static final String DATE_STRING = "dateString";
     private static final String TIME_STRING = "timeString";
-    private static final String TAG = "UpdateEntryActivity";
 
-    private Toolbar toolbar;
-    private FloatingActionButton fabUpdate;
     private TextView tvEntryDate;
     private TextView tvEntryTime;
     private EditText etEntryInfo;
@@ -55,7 +47,7 @@ public class UpdateEntryActivity extends AppCompatActivity {
 
         appDatabase = AppDatabase.getInstance(context);
 
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         tvEntryDate = findViewById(R.id.tvEntryDate);
@@ -69,7 +61,7 @@ public class UpdateEntryActivity extends AppCompatActivity {
         }
 
         Intent intent = getIntent();
-        if(intent != null && intent.hasExtra(EXTRA_ITEM_ID)) {
+        if (intent != null && intent.hasExtra(EXTRA_ITEM_ID)) {
             if (itemId == DEFAULT_ID) {
                 itemId = intent.getIntExtra(EXTRA_ITEM_ID, DEFAULT_ID);
 
@@ -88,7 +80,7 @@ public class UpdateEntryActivity extends AppCompatActivity {
             }
         }
 
-        fabUpdate = findViewById(R.id.fabUpdate);
+        FloatingActionButton fabUpdate = findViewById(R.id.fabUpdate);
         fabUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,8 +93,7 @@ public class UpdateEntryActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             newEntry = appDatabase.entryDao().loadEntryById(itemId);
-                            Log.d(TAG, "run: itemId " + String.valueOf(itemId));
-//                            newEntry.setId(itemId);
+                            newEntry.setId(itemId);
                             newEntry.setThoughts(entryInfo);
                             appDatabase.entryDao().updateEntry(newEntry);
                             finish();
@@ -110,7 +101,6 @@ public class UpdateEntryActivity extends AppCompatActivity {
                     });
 
                 } else {
-
                     Toast.makeText(context, context.getString(R.string.add_thoughts), Toast.LENGTH_SHORT).show();
                 }
             }

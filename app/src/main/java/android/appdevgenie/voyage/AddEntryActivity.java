@@ -20,16 +20,9 @@ import java.util.Locale;
 
 public class AddEntryActivity extends AppCompatActivity {
 
-    private TextView tvDate;
-    private TextView tvTime;
     private EditText etEntry;
-    private FloatingActionButton fabAdd;
-    private Toolbar toolbar;
 
     private Context context;
-    private Calendar calendar;
-    private SimpleDateFormat dateFormat;
-    private SimpleDateFormat timeFormat;
     private String dateString;
     private String timeString;
     private String username;
@@ -54,25 +47,25 @@ public class AddEntryActivity extends AppCompatActivity {
 
         context = getApplicationContext();
 
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         appDatabase = AppDatabase.getInstance(context);
 
-        tvDate = findViewById(R.id.tvEntryDate);
-        tvTime = findViewById(R.id.tvEntryTime);
+        TextView tvDate = findViewById(R.id.tvEntryDate);
+        TextView tvTime = findViewById(R.id.tvEntryTime);
         etEntry = findViewById(R.id.etEntryInfo);
 
-        calendar = Calendar.getInstance();
-        dateFormat = new SimpleDateFormat("cccc, dd MMMM, yyyy", Locale.getDefault());
-        timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("cccc, dd MMMM, yyyy", Locale.getDefault());
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
         dateString = dateFormat.format(calendar.getTime());
         tvDate.setText(dateString);
         timeString = timeFormat.format(calendar.getTime());
         tvTime.setText(timeString);
 
-        fabAdd = findViewById(R.id.fabAddNewEntry);
+        FloatingActionButton fabAdd = findViewById(R.id.fabAddNewEntry);
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

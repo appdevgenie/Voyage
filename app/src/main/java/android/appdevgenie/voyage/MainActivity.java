@@ -2,16 +2,20 @@ package android.appdevgenie.voyage;
 
 import android.appdevgenie.voyage.database.AppDatabase;
 import android.appdevgenie.voyage.database.NewEntry;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,12 +32,11 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements VoyageAdapter.ItemClickListener {
 
     private static final int SIGN_IN = 1;
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private String username;
     private Context context;
 
-    private FloatingActionButton fabNewEntry;
-    private RecyclerView recyclerView;
     private Toolbar toolbar;
 
     private VoyageAdapter voyageAdapter;
@@ -56,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
         firebaseAuth = FirebaseAuth.getInstance();
         initAuthStateListener();
 
-        recyclerView = findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         voyageAdapter = new VoyageAdapter(this, this);
         recyclerView.setAdapter(voyageAdapter);
@@ -78,15 +81,13 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
                         int position = viewHolder.getAdapterPosition();
                         List<NewEntry> entries = voyageAdapter.getEntries();
                         appDatabase.entryDao().deleteEntry(entries.get(position));
-                        populateList();
-
                     }
                 });
             }
         }).attachToRecyclerView(recyclerView);
 
 
-        fabNewEntry = findViewById(R.id.fabAddEntry);
+        FloatingActionButton fabNewEntry = findViewById(R.id.fabAddEntry);
         fabNewEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
         });
 
         appDatabase = AppDatabase.getInstance(context);
+
+        populateList();
     }
 
     private void initAuthStateListener() {
@@ -143,19 +146,14 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
     }
 
     private void populateList() {
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+        final LiveData<List<NewEntry>> entries = appDatabase.entryDao().loadAllEntriesByUsername(username);
+        entries.observe(this, new Observer<List<NewEntry>>() {
             @Override
-            public void run() {
-                final List<NewEntry> entries = appDatabase.entryDao().loadAllEntriesByUsername(username);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        voyageAdapter.setEntries(entries);
-                    }
-                });
+            public void onChanged(@Nullable List<NewEntry> newEntries) {
+                Log.d(TAG, "onChanged: update from LiveData");
+                voyageAdapter.setEntries(newEntries);
             }
         });
-
     }
 
     @Override
@@ -207,7 +205,6 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
 
         firebaseAuth.addAuthStateListener(authStateListener);
 
-        populateList();
     }
 
     @Override
@@ -223,7 +220,6 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
     public void onItemClickListener(int itemId) {
 
         Intent intent = new Intent(MainActivity.this, UpdateEntryActivity.class);
-        //intent.putExtra("itemId", itemId);
         intent.putExtra(UpdateEntryActivity.EXTRA_ITEM_ID, itemId);
         startActivity(intent);
 
