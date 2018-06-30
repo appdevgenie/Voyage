@@ -4,8 +4,8 @@ Journal is a android application to store all personal feelings and thoughts.
 
 ## Introduction
 
-The application uses Firebase Authentication to ensure that your information remains private.
-Two login methods are used namely: Email and Google sign in authentication.
+The application uses Firebase Authentication to ensure that your information remains private.\n
+Two login methods are used namely: Email and Google sign in authentication.\n
 Information is stored on the device`s internal storeage and will be deleted when application is uninstalled.
 
 ### Prerequisites
@@ -14,7 +14,8 @@ Android device running API 16, 4.1, Jelly Bean.
 
 ### Installing
 
-Download apk file onto device, ensure that "Install from unKnown sources" is enabled.
+Locate app-release.apk file at Voyage/app/release.\n
+Download apk file onto device, ensure that "Install from unknown sources" is enabled.
 
 ## License
 
