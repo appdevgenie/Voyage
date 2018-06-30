@@ -1,12 +1,13 @@
 # Journal
 
-Journal is a android application to store all personal feelings and thoughts.
+Journal is a android application used to store all your personal feelings and thoughts.
 
 ## Introduction
 
-The application uses Firebase Authentication to ensure that your information remains private.<br />
+This application uses Firebase Authentication to ensure that your information remains private.<br />
 Two login methods are used namely: Email and Google sign in authentication.<br />
-Information is stored on the device`s internal storeage and will be deleted when application is uninstalled.
+Information is stored on the device`s internal storage and will be deleted when application is uninstalled.<br />
+All entries can be viewed, updated and deleted. Deleting a entry is as easy as swiping on a entry in the main list.
 
 ### Prerequisites
 
