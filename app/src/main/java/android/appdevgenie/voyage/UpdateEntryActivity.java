@@ -1,6 +1,7 @@
 package android.appdevgenie.voyage;
 
 import android.appdevgenie.voyage.database.AppDatabase;
+import android.appdevgenie.voyage.database.DateConverter;
 import android.appdevgenie.voyage.database.NewEntry;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -26,6 +27,7 @@ public class UpdateEntryActivity extends AppCompatActivity {
     public static final String EXTRA_USERNAME = "username";
     private static final String DATE_STRING = "dateString";
     private static final String TIME_STRING = "timeString";
+    private static final String UPDATED_ON = "updatedOn";
 
     private TextView tvEntryDate;
     private TextView tvEntryTime;
@@ -43,13 +45,6 @@ public class UpdateEntryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_entry);
 
-        /*Bundle bundle = getIntent().getExtras();
-        if (bundle != null && bundle.containsKey("username")) {
-            if (itemId == DEFAULT_ID) {
-                username = bundle.getString("username");
-            }
-        }*/
-
         context = getApplicationContext();
 
         appDatabase = AppDatabase.getInstance(context);
@@ -65,6 +60,7 @@ public class UpdateEntryActivity extends AppCompatActivity {
             itemId = savedInstanceState.getInt(INSTANCE_ID, DEFAULT_ID);
             tvEntryDate.setText(savedInstanceState.getString(DATE_STRING, ""));
             tvEntryTime.setText(savedInstanceState.getString(TIME_STRING, ""));
+            date = DateConverter.toDate(savedInstanceState.getLong(UPDATED_ON));
         }
 
         Intent intent = getIntent();
@@ -139,6 +135,7 @@ public class UpdateEntryActivity extends AppCompatActivity {
         outState.putInt(INSTANCE_ID, itemId);
         outState.putString(DATE_STRING, tvEntryDate.getText().toString());
         outState.putString(TIME_STRING, tvEntryTime.getText().toString());
+        outState.putLong(UPDATED_ON, DateConverter.toTimestamp(date));
         super.onSaveInstanceState(outState);
 
     }

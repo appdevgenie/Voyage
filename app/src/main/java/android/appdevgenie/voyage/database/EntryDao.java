@@ -25,9 +25,6 @@ public interface EntryDao {
     @Query("SELECT * FROM voyage WHERE id = :id")
     LiveData<NewEntry> loadEntryById(int id);
 
-    /*@Query("SELECT * FROM voyage ORDER By updated_on DESC")
-    List<NewEntry> loadAllEntries();*/
-
     @Query("SELECT * FROM voyage WHERE username = :username ORDER By updated_on DESC")
     LiveData<List<NewEntry>> loadAllEntriesByUsername(String username);
 }
