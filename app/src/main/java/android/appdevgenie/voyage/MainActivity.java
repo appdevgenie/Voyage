@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
 
     private void populateList() {
         //final LiveData<List<NewEntry>> entries = appDatabase.entryDao().loadAllEntriesByUsername(username);
-        MainViewModel mainViewModel = ViewModelProviders.of(this, new MainViewModelFactory(this.getApplication(), username)).get(MainViewModel.class);
+        MainViewModel mainViewModel = ViewModelProviders.of(this, new MainViewModelFactory(appDatabase, username)).get(MainViewModel.class);
         mainViewModel.getNewEntries().observe(this, new Observer<List<NewEntry>>() {
             @Override
             public void onChanged(@Nullable List<NewEntry> newEntries) {

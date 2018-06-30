@@ -1,6 +1,7 @@
 package android.appdevgenie.voyage;
 
 import android.app.Application;
+import android.appdevgenie.voyage.database.AppDatabase;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
@@ -10,11 +11,11 @@ public class MainViewModelFactory extends ViewModelProvider.NewInstanceFactory{
 
     private static final String TAG = MainViewModelFactory.class.getSimpleName();
 
-    private Application application;
+    private AppDatabase appDatabase;
     private String username;
 
-    public MainViewModelFactory(Application application, String user) {
-        this.application = application;
+    public MainViewModelFactory(AppDatabase appDatabase, String user) {
+        this.appDatabase = appDatabase;
         this.username = user;
 
         Log.d(TAG, "MainViewModelFactory: user: " + username);
@@ -25,7 +26,8 @@ public class MainViewModelFactory extends ViewModelProvider.NewInstanceFactory{
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         Log.d(TAG, "MainViewModelFactory: modelClass");
-        return (T) new MainViewModel(application, username);
+        //noinspection unchecked
+        return (T) new MainViewModel(appDatabase, username);
     }
 
 }
