@@ -139,20 +139,17 @@ public class MainActivity extends AppCompatActivity implements VoyageAdapter.Ite
     }
 
     private void onSignedInInitialized(String displayName) {
-
         username = displayName;
-
         populateList();
-
     }
 
     private void populateList() {
-        //final LiveData<List<NewEntry>> entries = appDatabase.entryDao().loadAllEntriesByUsername(username);
-        MainViewModel mainViewModel = ViewModelProviders.of(this, new MainViewModelFactory(appDatabase, username)).get(MainViewModel.class);
+        MainViewModelFactory mainViewModelFactory = new MainViewModelFactory(appDatabase, username);
+        MainViewModel mainViewModel = ViewModelProviders.of(this, mainViewModelFactory).get(MainViewModel.class);
         mainViewModel.getNewEntries().observe(this, new Observer<List<NewEntry>>() {
             @Override
             public void onChanged(@Nullable List<NewEntry> newEntries) {
-                Log.d(TAG, "onChanged: update from LiveData");
+                Log.d(TAG, "onChanged: update from ViewModel");
                 voyageAdapter.setEntries(newEntries);
             }
         });

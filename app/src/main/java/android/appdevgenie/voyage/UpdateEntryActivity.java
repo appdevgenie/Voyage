@@ -2,8 +2,8 @@ package android.appdevgenie.voyage;
 
 import android.appdevgenie.voyage.database.AppDatabase;
 import android.appdevgenie.voyage.database.NewEntry;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -73,11 +73,12 @@ public class UpdateEntryActivity extends AppCompatActivity {
                 if (itemId == DEFAULT_ID) {
                     itemId = intent.getIntExtra(EXTRA_ITEM_ID, DEFAULT_ID);
 
-                    final LiveData<NewEntry> newEntry = appDatabase.entryDao().loadEntryById(itemId);
-                    newEntry.observe(this, new Observer<NewEntry>() {
+                    UpdateViewModelFactory updateViewModelFactory = new UpdateViewModelFactory(appDatabase, itemId);
+                    final UpdateViewModel updateViewModel = ViewModelProviders.of(this, updateViewModelFactory).get(UpdateViewModel.class);
+                    updateViewModel.getNewEntry().observe(this, new Observer<NewEntry>() {
                         @Override
                         public void onChanged(@Nullable NewEntry newEntries) {
-                            newEntry.removeObserver(this);
+                            updateViewModel.getNewEntry().removeObserver(this);
 
                             if (newEntries != null) {
                                 date = newEntries.getUpdatedOn();
