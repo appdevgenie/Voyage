@@ -7,5 +7,6 @@
     <string name="title_activity_test">TestActivity</string>
     <string name="add_to_journal">Add to Journal</string>
     <string name="update_journal">Update Journal</string>
+    <string name="update_entry">Update Entry</string>
     <string name="image_mood">Image mood indicator</string>
 </resources>

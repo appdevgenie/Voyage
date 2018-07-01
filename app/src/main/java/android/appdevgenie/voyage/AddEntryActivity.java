@@ -55,7 +55,7 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
         setupVariables();
 
         if (savedInstanceState != null) {
-            ivEntryMood.setImageResource(savedInstanceState.getInt(SAVE_MOOD));
+            ivEntryMood.setImageResource(savedInstanceState.getInt(SAVE_MOOD, MOOD_NEUTRAL));
         }
     }
 
@@ -137,6 +137,13 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
 
         outState.putInt(SAVE_MOOD, mood);
 
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        mood = savedInstanceState.getInt(SAVE_MOOD, MOOD_NEUTRAL);
     }
 
     @Override

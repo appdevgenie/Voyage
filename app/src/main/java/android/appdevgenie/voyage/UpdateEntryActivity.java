@@ -14,6 +14,9 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -29,6 +32,7 @@ import java.util.Locale;
 
 public class UpdateEntryActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = UpdateEntryActivity.class.getSimpleName();
     public static final String INSTANCE_ID = "instanceID";
     private static final int DEFAULT_ID = -1;
     public static final String EXTRA_ITEM_ID = "extraItemId";
@@ -47,7 +51,7 @@ public class UpdateEntryActivity extends AppCompatActivity implements View.OnCli
     private ImageView ivEntryMood;
 
     private int itemId = DEFAULT_ID;
-    private int mood;
+    private int mood = MOOD_NEUTRAL;
     private String username;
     private Date date;
 
@@ -61,6 +65,14 @@ public class UpdateEntryActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_update_entry);
 
         setupVariables();
+
+        if (savedInstanceState != null) {
+            itemId = savedInstanceState.getInt(INSTANCE_ID, DEFAULT_ID);
+            tvEntryDate.setText(savedInstanceState.getString(DATE_STRING, ""));
+            tvEntryTime.setText(savedInstanceState.getString(TIME_STRING, ""));
+            ivEntryMood.setImageResource(savedInstanceState.getInt(SAVE_MOOD, MOOD_NEUTRAL));
+            date = DateConverter.toDate(savedInstanceState.getLong(UPDATED_ON));
+        }
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -77,6 +89,7 @@ public class UpdateEntryActivity extends AppCompatActivity implements View.OnCli
 
                             if (newEntries != null) {
                                 date = newEntries.getUpdatedOn();
+                                mood = newEntries.getMood();
                             }
                             populateSheet(newEntries);
                         }
@@ -88,14 +101,6 @@ public class UpdateEntryActivity extends AppCompatActivity implements View.OnCli
                 username = intent.getStringExtra("username");
                 toolbar.setSubtitle(username);
             }
-        }
-
-        if (savedInstanceState != null) {
-            itemId = savedInstanceState.getInt(INSTANCE_ID, DEFAULT_ID);
-            tvEntryDate.setText(savedInstanceState.getString(DATE_STRING, ""));
-            tvEntryTime.setText(savedInstanceState.getString(TIME_STRING, ""));
-            ivEntryMood.setImageResource(savedInstanceState.getInt(SAVE_MOOD));
-            date = DateConverter.toDate(savedInstanceState.getLong(UPDATED_ON));
         }
 
     }
@@ -163,14 +168,8 @@ public class UpdateEntryActivity extends AppCompatActivity implements View.OnCli
         tvEntryDate.setText(newEntry.getEntryDate());
         tvEntryTime.setText(newEntry.getEntryTime());
         ivEntryMood.setImageResource(newEntry.getMood());
-
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("cc, dd/MM/yy, HH:mm", Locale.getDefault());
-        String dateString = dateFormat.format(calendar.getTime());
-        dateString = "[" + dateString + "] : ";
         etEntryInfo.setText(newEntry.getThoughts());
         etEntryInfo.setSelection(etEntryInfo.getText().length());
-        etEntryInfo.append("\n\n" + dateString);
 
     }
 
@@ -182,18 +181,55 @@ public class UpdateEntryActivity extends AppCompatActivity implements View.OnCli
         outState.putString(DATE_STRING, tvEntryDate.getText().toString());
         outState.putString(TIME_STRING, tvEntryTime.getText().toString());
         outState.putInt(SAVE_MOOD, mood);
+        Log.d(TAG, "onSaveInstanceState: mood: " + String.valueOf(mood));
         outState.putLong(UPDATED_ON, DateConverter.toTimestamp(date));
 
     }
 
     @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        mood = savedInstanceState.getInt(SAVE_MOOD, MOOD_NEUTRAL);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.update_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        // When the home button is pressed, take the user back to the MainActivity
-        if (id == android.R.id.home) {
-            NavUtils.navigateUpFromSameTask(this);
+
+        int itemID = item.getItemId();
+
+        switch (itemID) {
+
+            case R.id.action_update:
+
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("cc, dd/MM/yy, HH:mm", Locale.getDefault());
+                String dateString = dateFormat.format(calendar.getTime());
+                dateString = "[" + dateString + "] : ";
+                etEntryInfo.setSelection(etEntryInfo.getText().length());
+                etEntryInfo.append("\n\n" + dateString);
+
+                return true;
+
+            case android.R.id.home:
+
+                NavUtils.navigateUpFromSameTask(this);
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+
     }
 
     @Override
@@ -224,4 +260,5 @@ public class UpdateEntryActivity extends AppCompatActivity implements View.OnCli
         }
 
     }
+
 }
