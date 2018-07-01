@@ -15,8 +15,8 @@ Android device running API 16, 4.1, Jelly Bean.
 
 ### Installing
 
-Locate app-release.apk file at Voyage/app/release.<br />
-Or file can be downloaded from google drive at: https://drive.google.com/file/d/1gga-wiRK1edSR47u6U6DXdaDvH8PptS6/view?usp=sharing <br />
+Locate app-release.apk file at Voyage/app/release, or file can be downloaded from google drive at: <br />
+https://drive.google.com/file/d/1gga-wiRK1edSR47u6U6DXdaDvH8PptS6/view?usp=sharing <br />
 Download apk file onto device, ensure that "Install from unknown sources" is enabled.
 
 ## License
