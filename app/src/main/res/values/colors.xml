@@ -5,6 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="textBlack">#000000</color>
     <color name="textGrey">#909090</color>
-    <color name="cardBackground">#F0F0F0</color>
+    <color name="cardBackground">#E5E5E5</color>
 
 </resources>

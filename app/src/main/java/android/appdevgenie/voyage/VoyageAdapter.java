@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -48,6 +49,7 @@ public class VoyageAdapter extends RecyclerView.Adapter<VoyageAdapter.EntryViewH
         holder.tvDate.setText(date);
         holder.tvTime.setText(time);
         holder.tvThoughts.setText(info);
+        holder.ivMood.setImageResource(newEntry.getMood());
 
     }
 
@@ -64,6 +66,7 @@ public class VoyageAdapter extends RecyclerView.Adapter<VoyageAdapter.EntryViewH
         private TextView tvDate;
         private TextView tvTime;
         private TextView tvThoughts;
+        private ImageView ivMood;
 
         public EntryViewHolder(View itemView) {
             super(itemView);
@@ -71,6 +74,7 @@ public class VoyageAdapter extends RecyclerView.Adapter<VoyageAdapter.EntryViewH
             tvDate = itemView.findViewById(R.id.tvItemDate);
             tvTime = itemView.findViewById(R.id.tvItemTime);
             tvThoughts = itemView.findViewById(R.id.tvItemInfo);
+            ivMood = itemView.findViewById(R.id.ivItemMood);
             itemView.setOnClickListener(this);
         }
 

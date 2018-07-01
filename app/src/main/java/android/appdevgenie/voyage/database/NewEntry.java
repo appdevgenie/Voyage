@@ -16,24 +16,27 @@ public class NewEntry {
     private String thoughts;
     private String entryTime;
     private String entryDate;
+    private int mood;
     @ColumnInfo(name = "updated_on")
     private Date updatedOn;
 
     @Ignore
-    public NewEntry(String username, String thoughts, String entryTime, String entryDate, Date updatedOn) {
+    public NewEntry(String username, String thoughts, String entryTime, String entryDate, int mood, Date updatedOn) {
         this.username = username;
         this.thoughts = thoughts;
         this.entryTime = entryTime;
         this.entryDate = entryDate;
+        this.mood = mood;
         this.updatedOn = updatedOn;
     }
 
-    public NewEntry(int id, String username, String thoughts, String entryTime, String entryDate, Date updatedOn) {
+    public NewEntry(int id, String username, String thoughts, String entryTime, String entryDate, int mood, Date updatedOn) {
         this.id = id;
         this.username = username;
         this.thoughts = thoughts;
         this.entryTime = entryTime;
         this.entryDate = entryDate;
+        this.mood = mood;
         this.updatedOn = updatedOn;
     }
 
@@ -75,6 +78,14 @@ public class NewEntry {
 
     public void setEntryDate(String entryDate) {
         this.entryDate = entryDate;
+    }
+
+    public int getMood() {
+        return mood;
+    }
+
+    public void setMood(int mood) {
+        this.mood = mood;
     }
 
     public Date getUpdatedOn() {

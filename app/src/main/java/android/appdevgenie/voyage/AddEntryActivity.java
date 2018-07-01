@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,14 +23,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class AddEntryActivity extends AppCompatActivity {
+public class AddEntryActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final int MOOD_SAD = R.drawable.ic_action_sad;
+    private static final int MOOD_NEUTRAL = R.drawable.ic_action_neutral;
+    private static final int MOOD_HAPPY = R.drawable.ic_action_happy;
+    private static final String SAVE_MOOD = "saveMood";
 
     private EditText etEntry;
+    private ImageView ivEntryMood;
 
     private Context context;
     private String dateString;
     private String timeString;
     private String username;
+    private int mood = MOOD_NEUTRAL;
 
     private AppDatabase appDatabase;
 
@@ -44,6 +53,10 @@ public class AddEntryActivity extends AppCompatActivity {
         }
 
         setupVariables();
+
+        if (savedInstanceState != null) {
+            ivEntryMood.setImageResource(savedInstanceState.getInt(SAVE_MOOD));
+        }
     }
 
     private void setupVariables() {
@@ -52,10 +65,20 @@ public class AddEntryActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setSubtitle(username);
         ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
         }
+
+        ivEntryMood = findViewById(R.id.ivEntryMood);
+        ivEntryMood.setImageResource(MOOD_NEUTRAL);
+        ImageButton ibSad = findViewById(R.id.ibNewSad);
+        ImageButton ibNeutral = findViewById(R.id.ibNewNeutral);
+        ImageButton ibHappy = findViewById(R.id.ibNewHappy);
+        ibSad.setOnClickListener(this);
+        ibNeutral.setOnClickListener(this);
+        ibHappy.setOnClickListener(this);
 
         appDatabase = AppDatabase.getInstance(context);
 
@@ -81,7 +104,7 @@ public class AddEntryActivity extends AppCompatActivity {
                 Date date = new Date();
 
                 if(!entryInfo.equals("")) {
-                    final NewEntry newEntry = new NewEntry(username, entryInfo, timeString, dateString, date);
+                    final NewEntry newEntry = new NewEntry(username, entryInfo, timeString, dateString, mood, date);
                     AppExecutors.getInstance().diskIO().execute(new Runnable() {
                         @Override
                         public void run() {
@@ -106,5 +129,41 @@ public class AddEntryActivity extends AppCompatActivity {
             NavUtils.navigateUpFromSameTask(this);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(SAVE_MOOD, mood);
+
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()){
+
+            case R.id.ibNewSad:
+
+                ivEntryMood.setImageResource(MOOD_SAD);
+                mood = MOOD_SAD;
+
+                break;
+
+            case R.id.ibNewNeutral:
+
+                ivEntryMood.setImageResource(MOOD_NEUTRAL);
+                mood = MOOD_NEUTRAL;
+
+                break;
+
+            case R.id.ibNewHappy:
+
+                ivEntryMood.setImageResource(MOOD_HAPPY);
+                mood = MOOD_HAPPY;
+
+                break;
+        }
     }
 }
