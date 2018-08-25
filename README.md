@@ -1,6 +1,7 @@
 # Journal
 
-Journal is a android application used to store all your personal feelings and thoughts.
+Journal is a android application used to store all your personal feelings and thoughts. This application was the final project for the
+Google Africa challenge. 
 
 ## Introduction
 
